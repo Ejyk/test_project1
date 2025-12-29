@@ -16,7 +16,7 @@ st.markdown("""
 
 # Email credentials (use AWS Secrets Manager in production)
 EMAIL_ADDRESS = "einstsoft7@gmail.com"      # TODO: move to secrets
-EMAIL_PASSWORD = "ujfwfxnlmvyyjwxu"         # TODO: move to secrets
+EMAIL_PASSWORD = "ujfw fxnl mvyy jwxu"         # TODO: move to secrets
 
 # Staff emails dictionary
 PeelM_STAFF_EMAILS = {
