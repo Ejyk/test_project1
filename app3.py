@@ -68,6 +68,11 @@ def send_email(to, subject, message):
         msg['To'] = to
         msg.set_content(message)
 
+        
+        st.write("DEBUG sender:", EMAIL_ADDRESS)
+        st.write("DEBUG server: smtp.mail.yahoo.com:465 (SSL)")
+
+
         # Yahoo SMTP over SSL (port 465)
         with smtplib.SMTP_SSL('smtp.mail.yahoo.com', 465) as smtp:
             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)  # Use Yahoo App Password
