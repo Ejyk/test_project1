@@ -14,9 +14,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Email credentials (use AWS Secrets Manager in production)
-EMAIL_ADDRESS = "einstsoft7@gmail.com"      # TODO: move to secrets
-EMAIL_PASSWORD = "ujfw fxnl mvyy jwxu"         # TODO: move to secrets
+
+# Email credentials (use AWS Secrets Manager or st.secrets in production)
+EMAIL_ADDRESS = "chukwuejyk@yahoo.com"      # Yahoo sender address
+EMAIL_PASSWORD = "ujfwfxnlmvyyjwxu"         # Yahoo App Password (no spaces)
+# If you received the password with spaces, uncomment the next line:
+# EMAIL_PASSWORD = "ujfwfxnlmvyyjwxu".replace(" ", "")
 
 # Staff emails dictionary
 PeelM_STAFF_EMAILS = {
@@ -64,9 +67,11 @@ def send_email(to, subject, message):
         msg['To'] = to
         msg.set_content(message)
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+# Yahoo SMTP over SSL (port 465)
+        with smtplib.SMTP_SSL('smtp.mail.yahoo.com', 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)  # Use Yahoo App Password
             smtp.send_message(msg)
+
         st.success(f"Email sent to {to}")
     except Exception as e:
         st.error(f"Failed to send email: {e}")
