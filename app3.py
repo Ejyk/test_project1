@@ -17,7 +17,7 @@ st.markdown("""
 
 # Email credentials (use AWS Secrets Manager or st.secrets in production)
 EMAIL_ADDRESS = "chukwuejyk@yahoo.com"      # Yahoo sender address
-EMAIL_PASSWORD = "ujfwfxnlmvyyjwxu"         # Yahoo App Password (no spaces)
+EMAIL_PASSWORD = "OnichaIgboeze1"         # Yahoo App Password (no spaces)
 # If you received the password with spaces, uncomment the next line:
 # EMAIL_PASSWORD = "ujfwfxnlmvyyjwxu".replace(" ", "")
 
