@@ -59,6 +59,7 @@ if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 
 # Email sending function
+
 def send_email(to, subject, message):
     try:
         msg = EmailMessage()
@@ -67,12 +68,14 @@ def send_email(to, subject, message):
         msg['To'] = to
         msg.set_content(message)
 
-# Yahoo SMTP over SSL (port 465)
+        # Yahoo SMTP over SSL (port 465)
         with smtplib.SMTP_SSL('smtp.mail.yahoo.com', 465) as smtp:
             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)  # Use Yahoo App Password
             smtp.send_message(msg)
 
         st.success(f"Email sent to {to}")
+    except smtplib.SMTPAuthenticationError:
+        st.error("Authentication failed. Check Yahoo App Password and that 2‑step verification is ON.")
     except Exception as e:
         st.error(f"Failed to send email: {e}")
 
