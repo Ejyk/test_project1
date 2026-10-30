@@ -32,7 +32,7 @@ jobs:
             
             echo "🔄 Restarting Streamlit Application..."
             # Find and terminate any existing streamlit instances running app.py
-            pkill -f "streamlit run App.py" || true
+            pkill -f "streamlit run app.py" || true
             
             # Start streamlit cleanly in the background using nohup
             nohup streamlit run app.py --server.port 8501 --server.address 0.0.0.0 > streamlit.log 2>&1 &
