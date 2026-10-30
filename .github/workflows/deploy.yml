@@ -33,9 +33,8 @@ jobs:
             echo "🔄 Restarting Streamlit Application..."
             # Find and terminate any existing streamlit instances running app.py
             pkill -f "streamlit run" || true
+            
+            # Start streamlit cleanly in the background using nohup outputting to your absolute directory path
+            nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > /home/ubuntu/artisan_platform/streamlit.log 2>&1 &
 
-            
-            # Start streamlit cleanly in the background using nohup
-            nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > streamlit.log 2>&1 &
-            
             echo "✅ Deployment completed successfully!"
