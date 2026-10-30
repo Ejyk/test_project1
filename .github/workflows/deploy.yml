@@ -31,13 +31,13 @@ jobs:
             pip install -r requirement.txt
             
             echo "🔄 Restarting Streamlit Application..."
-            # Clear out any stale streamlit instances safely
+            # Safely clear out any running streamlit services
             pkill -f "streamlit run" || true
             
-            # Fire up the app targeting your valid capital 'App.py' 
-            nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > /home/ubuntu/artisan_platform/streamlit.log 2>&1 &
+            # Start streamlit with a production-grade full output detachment string
+            nohup venv/bin/streamlit run App.py --server.port 8501 --server.address 0.0.0.0 </dev/null >/home/ubuntu/artisan_platform/streamlit.log 2>&1 &
             
-            # Give the background task runner space to safely detach
-            sleep 3
+            # Give the system background process a moment to initialize
+            sleep 2
             
             echo "✅ Deployment completed successfully!"
