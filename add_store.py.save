@@ -1,0 +1,44 @@
+# add_shops.py
+from database import get_connection, generate_referral_code
+from datetime import datetime
+
+# List of shops
+shops = [
+    {"name": "Barbing sho", "email": "store1@wasim.co.uk", "location": "Bradford"},
+    {"name": "Bennet Hardware", "email": "store2@bennet.co.uk", "location": "Leeds"},
+    {"name": "ToolKing", "email": "store3@toolking.co.uk", "location": "Manchester"},
+    {"name": "FixIt Supplies", "email": "store4@fixit.co.uk", "location": "Liverpool"},
+    {"name": "Ace Hardware", "email": "store5@ace.co.uk", "location": "London"}
+]
+
+conn = get_connection()
+c = conn.cursor()
+
+for shop in shops:
+    referral_code = generate_referral_code()
+    artisan_code = f"STORE-{shop['name'].replace(' ', '').upper()}"  # unique internal code
+    try:
+        c.execute("""
+            INSERT INTO artisans (
+                artisan_code, business_name, email, phone, trade, location,
+                approved, active, created_at, referral_code, referred_by
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            artisan_code,
+            shop['name'],
+            shop['email'],
+            "",
+            "Hardware Store",
+            shop['location'],
+            1,  # approved
+            1,  # active
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            referral_code,
+            None
+        ))
+        print(f"✅ Added {shop['name']} with referral code: {referral_code}")
+    except Exception as e:
+        print(f"❌ Could not add {shop['name']}: {e}")
+
+conn.commit()
+conn.close()

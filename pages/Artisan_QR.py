@@ -1,0 +1,19 @@
+# pages/ArtisanQR.py
+import streamlit as st
+from PIL import Image
+import os
+
+st.title("🛠️ Artisan Registration QR Codes")
+
+QR_FOLDER = "qr_codes"
+if not os.path.exists(QR_FOLDER):
+    st.error("No QR codes found. Run generate_all_qr.py first.")
+else:
+    files = os.listdir(QR_FOLDER)
+    if not files:
+        st.error("No QR codes found in the folder.")
+    else:
+        for file in files:
+            path = os.path.join(QR_FOLDER, file)
+            img = Image.open(path)
+            st.image(img, caption=file.replace("_QR.png", ""), use_container_width=True)

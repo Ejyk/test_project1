@@ -1,0 +1,40 @@
+name: Deploy Artisan Platform to EC2
+
+on:
+  push:
+    branches:
+      - main  # Triggers the pipeline when code is merged or pushed to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "🚀 Navigating to application directory..."
+            cd /home/ubuntu/artisan_platform
+            
+            echo "📥 Fetching latest code from GitHub..."
+            git pull origin main
+            
+            echo "📦 Updating python dependencies..."
+            source venv/bin/activate
+            pip install -r requirement.txt
+            
+            echo "🔄 Restarting Streamlit Application..."
+            # Find and terminate any existing streamlit instances running app.py
+            pkill -f "streamlit run App.py" || true
+            
+            # Start streamlit cleanly in the background using nohup
+            nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > streamlit.log 2>&1 &
+            
+            echo "✅ Deployment completed successfully!"
