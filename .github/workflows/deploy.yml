@@ -35,6 +35,6 @@ jobs:
             pkill -f "streamlit run App.py" || true
             
             # Start streamlit cleanly in the background using nohup
-            nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > streamlit.log 2>&1 &
+            nohup streamlit run app.py --server.port 8501 --server.address 0.0.0.0 > streamlit.log 2>&1 &
             
             echo "✅ Deployment completed successfully!"
