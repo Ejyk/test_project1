@@ -3,7 +3,7 @@ name: Deploy Artisan Platform to EC2
 on:
   push:
     branches:
-      - main  # Triggers the pipeline when code is merged or pushed to main
+      - main
 
 jobs:
   deploy:
@@ -31,10 +31,13 @@ jobs:
             pip install -r requirement.txt
             
             echo "🔄 Restarting Streamlit Application..."
-            # Find and terminate any existing streamlit instances running app.py
+            # Kill any active streamlit run commands cleanly
             pkill -f "streamlit run" || true
             
-            # Start streamlit cleanly in the background using nohup outputting to your absolute directory path
+            # Start streamlit using the exact capital file naming matching your disk
             nohup streamlit run App.py --server.port 8501 --server.address 0.0.0.0 > /home/ubuntu/artisan_platform/streamlit.log 2>&1 &
-
+            
+            # Allow process background detachment
+            sleep 2
+            
             echo "✅ Deployment completed successfully!"
